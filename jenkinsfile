@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+        ACTION = params.ACTION ?: 'create'
+        USERNAME = params.USERNAME ?: 'default_user'
+    }
+
+    stages {
+        stage('Print Jenkins Environment') {
+            steps {
+                script {
+                    echo "Jenkins Environment:"
+                    sh 'env'
+                }
+            }
+        }
+
+        stage('Perform Action') {
+            steps {
+                script {
+                    echo "ACTION: ${ACTION}"
+                    echo "USERNAME: ${USERNAME}"
+
+                    switch (ACTION) {
+                        case 'create':
+                            echo "Creating user ${USERNAME}"
+                            // Add your command to create the user here
+                            break
+                        case 'delete':
+                            echo "Deleting user ${USERNAME}"
+                            // Add your command to delete the user here
+                            break
+                        case 'lock':
+                            echo "Locking user ${USERNAME}"
+                            // Add your command to lock the user here
+                            break
+                        case 'unlock':
+                            echo "Unlocking user ${USERNAME}"
+                            // Add your command to unlock the user here
+                            break
+                        default:
+                            error "Invalid action: ${ACTION}"
+                    }
+                }
+            }
+        }
+    }
+}
